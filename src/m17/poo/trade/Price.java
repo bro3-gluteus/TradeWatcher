@@ -1,7 +1,5 @@
 package m17.poo.trade;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +31,11 @@ public class Price {
 		this.d=d;
 	}
 	
+	public Price(WebDriver d,String cardId){
+		this.d=d;
+		this.cardId = cardId;
+	}
+	
 	public void setCardId(String cardId){
 		this.cardId = cardId;
 	}
@@ -45,9 +48,7 @@ public class Price {
 		
 		//目的のカードのページに飛んでおく(価格順)
 		d.navigate().to("http://m17.3gokushi.jp/card/trade.php?s=price&o=a&t=no&k="+cardId);
-		//サーバー時間
-		//serverTime = d.findElement(By.id("server_time")).getText();
-		//サーバー時間がdisplay:noneで取得できない。いい方法はないだろうか？
+		//サーバー時間(うまく取得できないので暫定的に東京の現在時刻で代用)
 		serverTime = new DateTime(DateTimeZone.forID("Asia/Tokyo"));
 
 		//即落価格を見つける
@@ -94,26 +95,21 @@ public class Price {
     		Pattern pattern = Pattern.compile("([0-9]+)-([0-9]+)-([0-9]+)\n([0-9]+):([0-9]+)");
     		Matcher matcher = pattern.matcher(openLimit);
     		if (matcher.find()){
-    			DateTime openLimitDate = new DateTime(Integer.valueOf(matcher.group(1)), 
+    			DateTime openLimitDate = new DateTime(
+    					Integer.valueOf(matcher.group(1)), 
     					Integer.valueOf(matcher.group(2)),
     					Integer.valueOf(matcher.group(3)), 
     					Integer.valueOf(matcher.group(4)), 
-    					Integer.valueOf(matcher.group(5)), 0);
+    					Integer.valueOf(matcher.group(5)), 
+    					0
+    					);
 
     			Duration duration = new Duration(serverTime, openLimitDate);//現在時刻との差
     			
     			if(duration.getMillis()<86400000){//24時間以内
     				saiyasuPrice = columnList.get(6).getText();
+    				saiyasuPrice = saiyasuPrice.replaceAll(",", "");
     				blnYasu = true;
-        		//カンマ区切りの数値文字列はCSVにしたくなった時に邪魔なのでカンマを消す
-            NumberFormat nf = NumberFormat.getInstance();
-            try {
-    					Number num = nf.parse(saiyasuPrice);
-    					int IntValue = num.intValue();
-    					saiyasuPrice = String.valueOf(IntValue);
-    				} catch (ParseException e) {
-    					e.printStackTrace();
-    				}
     			}
     		}
     	}
@@ -121,15 +117,8 @@ public class Price {
     	//即落を見つける
     	if(columnList.get(8).getText().equals("---")&&!blnRaku){
     		sokurakuPrice = columnList.get(6).getText();
+    		sokurakuPrice = sokurakuPrice.replaceAll(",", "");
     		blnRaku = true;
-        NumberFormat nf = NumberFormat.getInstance();
-        try {
-					Number num = nf.parse(sokurakuPrice);
-					int IntValue = num.intValue();
-					sokurakuPrice = String.valueOf(IntValue);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
     	}	
     }
     //一番下のカードまで探して見つからなかった時は次のページへ

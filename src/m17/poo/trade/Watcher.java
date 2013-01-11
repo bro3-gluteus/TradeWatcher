@@ -59,12 +59,10 @@ class TradeRateThread implements Runnable {
 	}
 	public void run() {
 		WebDriver d = CommonFlow.getBro3WebDriver(CommonSettings.USE_FIREFOX);
-		
-		//Price sokuraku = new Price(d);ここに置いちゃダメ＞＜
+
 		for (String cardId:cards){
     	StopWatch sw1 = new StopWatch();
-  		Price sokuraku = new Price(d);
-    	sokuraku.setCardId(cardId);
+  		Price sokuraku = new Price(d,cardId);
 	    String[] rate = sokuraku.getRate(); 
 	    Watcher.datapool.poolData(cardId, rate);
 	    sw1.stop(rate[0]+" "+cardId+": "+rate[1]+"TP/"+rate[2]+"TP");
