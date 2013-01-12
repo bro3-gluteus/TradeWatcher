@@ -26,4 +26,20 @@ public class InfoReader {
     }
     return idList;
 	}
+	
+	public List<String> getIdListByRarity(String rarity){
+		List<String> idList = new ArrayList<String>();
+    for (String id : cardMap.keySet()){
+    	if (cardMap.get(id)[0].equals(rarity)) idList.add(id);
+    }
+		return idList;
+	}
+	
+	public List<String> getIdListByCost(String cost){
+		List<String> idList = new ArrayList<String>();
+    for (String id : cardMap.keySet()){
+    	if (cardMap.get(id)[1].equals(cost)) idList.add(id);
+    }
+		return idList;
+	}
 }
