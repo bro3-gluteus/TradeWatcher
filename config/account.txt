@@ -1,0 +1,3 @@
+//mixiアカウント
+<mixiEmail>:email@mixi.email
+<mixiPassword>:pa$$ward

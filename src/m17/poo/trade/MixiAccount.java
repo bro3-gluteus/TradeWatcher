@@ -1,5 +1,9 @@
 package m17.poo.trade;
 
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
 /**
  * Mixiアカウント情報のデータクラス
  */
@@ -16,15 +20,33 @@ public class MixiAccount {
    * http://gyazo.com/e3ee52fb8bdf2206478da397fccbe174
    */
   public MixiAccount() {
-    //this.mixiEmail でも mixiEmailでも同じ
-    mixiEmail = System.getProperty("mixi.email");
-    mixiPassword = System.getProperty("mixi.password");
-    
+		ReadConfig cfg = new ReadConfig("config/account.txt");
+		
+		List<String> email = cfg.getConfigList("mixiEmail");
+		List<String> pass = cfg.getConfigList("mixiPassword");
+		
+	  //パスワードちゃんと入ってるかチェック
+		if (email==null || email.size()==0 || 
+        pass==null || pass.size()==0 ) {
+			JOptionPane.showMessageDialog(null, 
+					"mixiログイン設定が入っていません。設定ファイルで設定してください。",
+					"設定エラー",
+					JOptionPane.ERROR_MESSAGE
+					);
+			System.exit(-1);
+    }
+		
+		mixiEmail = email.get(0).trim();
+		mixiPassword = pass.get(0).trim();
     //パスワードちゃんと入ってるかチェック
     if (mixiEmail==null || mixiEmail.length()==0 || 
             mixiPassword==null || mixiPassword.length()==0 ) {
-      System.err.println("メールアドレスとパスワードをDオプションで指定してください。\n例： http://gyazo.com/e3ee52fb8bdf2206478da397fccbe174");
-      System.exit(-1);
+			JOptionPane.showMessageDialog(null, 
+					"mixiログイン設定が入っていません。設定ファイルで設定してください。",
+					"設定エラー",
+					JOptionPane.ERROR_MESSAGE
+					);
+			System.exit(-1);
     }
   }
 
