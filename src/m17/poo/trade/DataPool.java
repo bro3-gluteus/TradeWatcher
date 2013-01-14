@@ -6,31 +6,25 @@ import com.google.common.collect.Multimap;
 
 public class DataPool {
 
-	private Multimap<String, String[]> pool;//Guava
-	private IOUtil<Multimap<String, String[]>> ioutil = new IOUtil<Multimap<String, String[]>>();
-	
-	public DataPool(){
-    try {
-			pool = ioutil.loadZippedData(new File("data/trade.zip"));
-		} catch (Exception e) {
-			pool = ArrayListMultimap.create();
-		}
-	}
-	
-	public Multimap<String, String[]> getPool(){
-		
-		return pool;
-	}
-	
+	private Multimap<String, String[]> pool = ArrayListMultimap.create();
+
 	public synchronized void poolData(String cardId,String[] rate){
 		pool.put(cardId, rate);
 	}
 	
 	public void saveData(){
+		IOUtil<Multimap<String, String[]>> ioutil = new IOUtil<Multimap<String, String[]>>();
+		Multimap<String, String[]> savedData;
 		try {
-			ioutil.saveZippedData(pool, new File("data/trade.zip"));
+			savedData = ioutil.loadZippedData(new File("data/trade.zip"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			savedData = ArrayListMultimap.create();
+		}
+		try {
+			savedData.putAll(pool);
+			ioutil.saveZippedData(savedData, new File("data/trade.zip"));
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}	
 }

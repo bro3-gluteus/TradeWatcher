@@ -1,20 +1,16 @@
 package m17.poo.trade;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 public class PickUp {
 	
 	private String id;
-	private Multimap<String, String[]> pool;
-	
-	public PickUp() {
-		DataPool datapool = new DataPool();
-		pool=datapool.getPool();
-	}
 	
 	public void setId(String id){
 		this.id = id;
@@ -22,9 +18,17 @@ public class PickUp {
 	
 	public Map<String,String> getOpeningPrice(){
 		
+		IOUtil<Multimap<String, String[]>> ioutil = new IOUtil<Multimap<String, String[]>>();
+		Multimap<String, String[]> savedData;
+		try {
+			savedData = ioutil.loadZippedData(new File("data/trade.zip"));
+		} catch (Exception e) {
+			savedData = ArrayListMultimap.create();
+		}
+		
 		Map<String,String> priceMap = new HashMap<String,String>();
 		
-		Collection<String[]> dataCollection = pool.get(id);
+		Collection<String[]> dataCollection = savedData.get(id);
 		for (String[] priceAry:dataCollection){
 			String time  = priceAry[0];
 			String price = priceAry[1];
