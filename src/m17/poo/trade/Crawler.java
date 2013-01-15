@@ -13,10 +13,9 @@ public class Crawler {
 	private static int threadLife = 2*60*60;//スレッドの寿命(秒)
 	static DataPool datapool = new DataPool();
 	private static int numThread = 6;
-	
 	public static void main(String[] args){
-    StopWatch sw = new StopWatch();
-    
+		StopWatch sw = new StopWatch();
+    System.out.println("トレードデータの取得を開始してます...");
     //カードIDのリスト取得
     InfoReader info = new InfoReader();
     List<String> cardList = info.getIdList();
@@ -51,7 +50,7 @@ public class Crawler {
     
     //保存
     datapool.saveData();
-    sw.stop("全処理完了");
+    sw.stop("トレード情報取得が完了しました");
 	}
 }
 
@@ -64,11 +63,10 @@ class TradeRateThread implements Runnable {
 		WebDriver d = CommonFlow.getBro3WebDriver(CommonSettings.USE_FIREFOX);
 
 		for (String cardId:cards){
-    	StopWatch sw1 = new StopWatch();
   		Price sokuraku = new Price(d,cardId);
 	    String[] rate = sokuraku.getRate(); 
 	    Crawler.datapool.poolData(cardId, rate);
-	    sw1.stop(rate[0]+" "+cardId+": "+rate[1]+"TP/"+rate[2]+"TP");
+	    System.out.println(rate[0]+" "+cardId+": "+rate[1]+"TP/"+rate[2]+"TP");
 		}
 	}
 

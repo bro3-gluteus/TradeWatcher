@@ -37,7 +37,7 @@ public class WebDriverFactory {
    * @return　web driver
    */
   public static WebDriver createDriver(boolean useFF) {
-    StopWatch sw = new StopWatch();
+    //StopWatch sw = new StopWatch();
     WebDriver d;
     if (useFF) {
       d = new FirefoxDriver();
@@ -53,7 +53,7 @@ public class WebDriverFactory {
       hud.setJavascriptEnabled(true);
       d = hud;
     }
-    sw.stop("ウェブドライバを初期化しました");
+   // sw.stop("ウェブドライバを初期化しました");
     return d;
   }
 }
