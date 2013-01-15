@@ -21,7 +21,7 @@ public class AccountEditor implements ActionListener{
 	public void editor(){
 
 		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		frame.setSize(400, 100);
 		frame.setTitle("mixiアカウント設定");
