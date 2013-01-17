@@ -12,26 +12,25 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class AccountEditor implements ActionListener{
+@SuppressWarnings("serial")
+public class AccountEditor extends JFrame implements ActionListener{
 	
-	private JFrame frame;
 	private JTextField emailContent;
 	private JTextField passContent;
 	
-	public void editor(){
-
-		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new BorderLayout());
-		frame.setSize(400, 100);
-		frame.setTitle("mixiアカウント設定");
-		frame.setVisible(true);
+	public void editor(String mixiEmail,String mixiPassword){
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new BorderLayout());
+		setSize(400, 100);
+		setTitle("mixiアカウント設定");
+		setVisible(true);
 		
 		//親パネル
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel);
+		getContentPane().add(panel);
 		JPanel panel2 = new JPanel();
-		frame.getContentPane().add(panel2);
+		getContentPane().add(panel2);
 		
 		// GroupLayout の生成
 		GroupLayout layout = new GroupLayout(panel);
@@ -47,8 +46,10 @@ public class AccountEditor implements ActionListener{
 		panel.add(passLabel);
 		
 		emailContent = new JTextField(25);
+		emailContent.setText(mixiEmail);
 		panel.add(emailContent);
 		passContent = new JTextField(25);
+		passContent.setText(mixiPassword);
 		panel.add(passContent);
 		
 		JButton editButton = new JButton("確定");
@@ -89,11 +90,11 @@ public class AccountEditor implements ActionListener{
 
     layout.setVerticalGroup(vGroup);
     
-    frame.add(panel,BorderLayout.CENTER);
-    frame.add(panel2,BorderLayout.SOUTH);
+    add(panel,BorderLayout.CENTER);
+    add(panel2,BorderLayout.SOUTH);
 
-    frame.pack();
-    frame.setVisible(true);
+    pack();
+    setVisible(true);
 	
 	}
 
@@ -106,6 +107,8 @@ public class AccountEditor implements ActionListener{
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		frame.dispose();
+		AccountManager accountframe = new AccountManager();
+		accountframe.setVisible(true);
+		dispose();
 	}
 }

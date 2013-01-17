@@ -1,8 +1,141 @@
 package m17.poo.trade;
 
-public class AccountManager {
-	public static void main(String[] args){
-		AccountChecker ac = new AccountChecker();
-		ac.showAccount();
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+@SuppressWarnings("serial")
+public class AccountManager extends JFrame implements ActionListener{
+
+	private String mixiEmail;
+	private String mixiPassword;
+	
+	AccountManager(){
+		
+		IOUtil<String[]> ioutil = new IOUtil<String[]>();
+		String[] account = {"",""};
+		try {
+			account = ioutil.loadZippedData(new File("config/account.zip"));
+		} catch (Exception e) {
+		}
+		mixiEmail = account[0].trim();
+		mixiPassword = account[1].trim();
+		if (mixiEmail.length()==0) mixiEmail="未設定";
+		if (mixiPassword.length()==0) mixiPassword="未設定";
+		
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new BorderLayout());
+		setSize(400, 100);
+		setTitle("mixiアカウント設定");
+		
+		//親パネル
+		JPanel panel = new JPanel();
+		getContentPane().add(panel);
+		JPanel panel2 = new JPanel();
+		getContentPane().add(panel2);
+		
+		// GroupLayout の生成
+		GroupLayout layout = new GroupLayout(panel);
+		panel.setLayout(layout);
+
+		// 自動的にコンポーネント間のすき間をあけるようにする
+		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
+
+		JLabel emailLabel = new JLabel("Email");
+		panel.add(emailLabel);
+		JLabel passLabel = new JLabel("Pass");
+		panel.add(passLabel);
+		
+		JLabel emailContent = new JLabel(": "+mixiEmail);
+		panel.add(emailContent);
+		JLabel passContent = new JLabel(": "+mixiPassword);
+		panel.add(passContent);
+		
+		//OKボタン
+		JButton okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        System.exit(0);
+      }
+		});
+		panel2.add(okButton);
+		
+		//編集ボタン
+		JButton editButton = new JButton("編集");
+		editButton.addActionListener(this);
+		panel2.add(editButton);
+		
+    // 水平方向のグループ
+    GroupLayout.SequentialGroup hGroup
+        = layout.createSequentialGroup();
+      
+    // ラベルを含むパラレルグループを追加
+    hGroup.addGroup(layout.createParallelGroup()
+                    .addComponent(emailLabel)
+                    .addComponent(passLabel));
+
+    hGroup.addGroup(layout.createParallelGroup()
+        .addComponent(emailContent)
+        .addComponent(passContent));
+    
+
+    layout.setHorizontalGroup(hGroup);
+
+    // 垂直方向のグループ
+    GroupLayout.SequentialGroup vGroup
+        = layout.createSequentialGroup();
+
+    // 名字のラベル、テキストフィールドを含む
+    // パラレルグループを追加
+    vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(emailLabel)
+                    .addComponent(emailContent));
+
+    // 名前のラベル、テキストフィールドを含む
+    // パラレルグループを追加
+    vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(passLabel)
+                    .addComponent(passContent));
+
+    layout.setVerticalGroup(vGroup);
+    
+    add(panel,BorderLayout.CENTER);
+    add(panel2,BorderLayout.SOUTH);
+    
+    //Look&FeelをOSの物に。
+    try {
+      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	  } catch (ClassNotFoundException e) {
+	  } catch (InstantiationException e) {
+	  } catch (IllegalAccessException e) {
+	  } catch (UnsupportedLookAndFeelException e) {
+	  }
+	  SwingUtilities.updateComponentTreeUI(this);
+
+    pack();
 	}
+	
+	public static void main(String[] args){
+		AccountManager frame = new AccountManager();
+		frame.setVisible(true);
+	}
+	
+	public void actionPerformed(ActionEvent e){
+		AccountEditor editor = new AccountEditor();
+		editor.editor(mixiEmail,mixiPassword);
+		dispose();
+	}
+	
 }
