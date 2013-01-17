@@ -7,15 +7,11 @@ import java.io.File;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 @SuppressWarnings("serial")
-public class AccountManager extends JFrame implements ActionListener{
+public class AccountManager extends myFrame implements ActionListener{
 
 	private String mixiEmail;
 	private String mixiPassword;
@@ -33,10 +29,13 @@ public class AccountManager extends JFrame implements ActionListener{
 		if (mixiEmail.length()==0) mixiEmail="未設定";
 		if (mixiPassword.length()==0) mixiPassword="未設定";
 		
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new BorderLayout());
-		setSize(400, 100);
+		Screen screen = new Screen();
+		int sizeX = 400;
+		int sizeY = 100;
+		screen.setFrameSize(sizeX, sizeY);
+		int[] xy = screen.getFrameCenter();
+		setBounds(xy[0],xy[1],sizeX, sizeY);
+
 		setTitle("mixiアカウント設定");
 		
 		//親パネル
@@ -113,16 +112,6 @@ public class AccountManager extends JFrame implements ActionListener{
     
     add(panel,BorderLayout.CENTER);
     add(panel2,BorderLayout.SOUTH);
-    
-    //Look&FeelをOSの物に。
-    try {
-      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	  } catch (ClassNotFoundException e) {
-	  } catch (InstantiationException e) {
-	  } catch (IllegalAccessException e) {
-	  } catch (UnsupportedLookAndFeelException e) {
-	  }
-	  SwingUtilities.updateComponentTreeUI(this);
 
     pack();
 	}

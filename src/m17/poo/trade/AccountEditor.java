@@ -7,24 +7,25 @@ import java.io.File;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class AccountEditor extends JFrame implements ActionListener{
+public class AccountEditor extends myFrame implements ActionListener{
 	
 	private JTextField emailContent;
 	private JTextField passContent;
 	
 	public void editor(String mixiEmail,String mixiPassword){
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new BorderLayout());
-		setSize(400, 100);
+		Screen screen = new Screen();
+		int sizeX = 400;
+		int sizeY = 100;
+		screen.setFrameSize(sizeX, sizeY);
+		int[] xy = screen.getFrameCenter();
+		setBounds(xy[0],xy[1],sizeX, sizeY);
 		setTitle("mixiアカウント設定");
-		setVisible(true);
 		
 		//親パネル
 		JPanel panel = new JPanel();
