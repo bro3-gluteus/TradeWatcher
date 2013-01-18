@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class AccountManager extends myFrame implements ActionListener{
+public class AccountManager extends MyFrame implements ActionListener{
 
 	private String mixiEmail;
 	private String mixiPassword;

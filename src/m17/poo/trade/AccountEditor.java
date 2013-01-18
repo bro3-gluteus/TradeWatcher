@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class AccountEditor extends myFrame implements ActionListener{
+public class AccountEditor extends MyFrame implements ActionListener{
 	
 	private JTextField emailContent;
 	private JTextField passContent;
