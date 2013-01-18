@@ -14,6 +14,7 @@ public class Crawler {
 	private static int threadLife = 2*60*60;//スレッドの寿命(秒)
 	static DataPool datapool = new DataPool();
 	private static int numThread = 6;
+	
 	Crawler(){
 		StopWatch sw = new StopWatch();
     TradeWatcher.outputArea.append("トレードデータの取得を開始してます...\n");
@@ -51,7 +52,7 @@ public class Crawler {
     
     //保存
     datapool.saveData();
-    sw.stop("トレード情報取得が完了しました");
+    sw.stop("トレード情報取得が完了しました\n");
 	}
 }
 

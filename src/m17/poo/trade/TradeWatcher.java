@@ -4,7 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -58,7 +59,9 @@ public class TradeWatcher extends JFrame{
 		setBounds(100, 100, 400, 400);
 		setJMenuBar(menubar);
 		
-		new ScheduledCrawl();
+		ExecutorService excec = Executors.newSingleThreadExecutor();
+		excec.execute(new RunnableClass("ScheduledCrawl"));
+		excec.shutdown();
 		
 	}
 	
@@ -70,7 +73,7 @@ public class TradeWatcher extends JFrame{
 
 }
 
-class Action extends Thread implements ActionListener, Runnable{
+class Action extends Thread implements ActionListener{
 	
 	private String cmd;
 	
@@ -79,12 +82,27 @@ class Action extends Thread implements ActionListener, Runnable{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		Action thread = new Action(cmd);
-		thread.start();	
+		ExecutorService exec = Executors.newSingleThreadExecutor();
+		exec.execute(new RunnableClass(cmd));
+		exec.shutdown();
 	}
-	public void run(){
+}
+
+class RunnableClass implements Runnable{
+	
+	private String cmd;
+	
+	public RunnableClass(String cmd){
+		this.cmd = cmd;
+	}
+	
+	public void run() {
+		
+		if(cmd.equals("ScheduledCrawl")) new ScheduledCrawl();
+		
 		if(cmd.equals("Crawler")) new Crawler();
 		if(cmd.equals("HajimeneViewer")) new Viewer("始値Viewer");
 		if(cmd.equals("AccountManager")) new AccountManager();
-  }
+		
+	}
 }
