@@ -66,7 +66,7 @@ public class AccountManager extends MyFrame implements ActionListener{
 		JButton okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        System.exit(0);
+      	dispose();
       }
 		});
 		panel2.add(okButton);
@@ -114,11 +114,8 @@ public class AccountManager extends MyFrame implements ActionListener{
     add(panel2,BorderLayout.SOUTH);
 
     pack();
-	}
-	
-	public static void main(String[] args){
-		AccountManager frame = new AccountManager();
-		frame.setVisible(true);
+    
+    setVisible(true);
 	}
 	
 	public void actionPerformed(ActionEvent e){

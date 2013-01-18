@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JTextArea;
 import org.openqa.selenium.WebDriver;
 
 public class Crawler {
@@ -13,9 +14,9 @@ public class Crawler {
 	private static int threadLife = 2*60*60;//スレッドの寿命(秒)
 	static DataPool datapool = new DataPool();
 	private static int numThread = 6;
-	public static void main(String[] args){
+	Crawler(){
 		StopWatch sw = new StopWatch();
-    System.out.println("トレードデータの取得を開始してます...");
+    TradeWatcher.outputArea.append("トレードデータの取得を開始してます...\n");
     //カードIDのリスト取得
     InfoReader info = new InfoReader();
     List<String> cardList = info.getIdList();
@@ -61,12 +62,14 @@ class TradeRateThread implements Runnable {
 	}
 	public void run() {
 		WebDriver d = CommonFlow.getBro3WebDriver(CommonSettings.USE_FIREFOX);
-
+		JTextArea outputArea = TradeWatcher.outputArea;
 		for (String cardId:cards){
   		Price sokuraku = new Price(d,cardId);
 	    String[] rate = sokuraku.getRate(); 
 	    Crawler.datapool.poolData(cardId, rate);
-	    System.out.println(rate[0]+" "+cardId+": "+rate[1]+"TP/"+rate[2]+"TP");
+	    outputArea.append(rate[0]+" "+cardId+": "+rate[1]+"TP/"+rate[2]+"TP\n");
+	    outputArea.setCaretPosition(0); 
+	    outputArea.setCaretPosition(outputArea.getDocument().getLength());
 		}
 	}
 

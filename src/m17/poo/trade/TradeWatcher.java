@@ -1,6 +1,7 @@
 package m17.poo.trade;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,11 +9,27 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.border.BevelBorder;
 
 @SuppressWarnings("serial")
 public class TradeWatcher extends JFrame{
-
+	
+	public static JTextArea outputArea;
+	
 	public TradeWatcher (){
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new BorderLayout());
+		//情報表示部
+		outputArea = new JTextArea();
+		outputArea.setForeground(Color.BLACK);
+		outputArea.setBackground(Color.WHITE);
+		outputArea.setEditable(false);
+		outputArea.setBorder(new BevelBorder(BevelBorder.LOWERED));
+		getContentPane().add(new JScrollPane(outputArea),BorderLayout.CENTER);
+		
 		//メニューバー作成
 		JMenuBar menubar = new JMenuBar();
 		
@@ -28,10 +45,7 @@ public class TradeWatcher extends JFrame{
 		//メニューアイテム作成
 		JMenuItem crawlerItem1 = new JMenuItem("今すぐ実行");
 							crawlerItem1.addActionListener(new Action("Crawler"));
-		JMenuItem crawlerItem2 = new JMenuItem("予約実行");
-							crawlerItem2.addActionListener(new Action("ScheduledCrawl"));
 		crawlerMenu.add(crawlerItem1);
-		crawlerMenu.add(crawlerItem2);
 		
 		JMenuItem viewerItem1 = new JMenuItem("始値");
 							viewerItem1.addActionListener(new Action("HajimeneViewer"));
@@ -41,10 +55,10 @@ public class TradeWatcher extends JFrame{
 							settingItem1.addActionListener(new Action("AccountManager"));
 		settingMenu.add(settingItem1);
 		
-		setBounds(100, 100, 300, 250);
+		setBounds(100, 100, 400, 400);
 		setJMenuBar(menubar);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new BorderLayout());
+		
+		new ScheduledCrawl();
 		
 	}
 	
@@ -69,9 +83,8 @@ class Action extends Thread implements ActionListener, Runnable{
 		thread.start();	
 	}
 	public void run(){
-		if(cmd.equals("Crawler")) Crawler.main(null);
-		if(cmd.equals("ScheduledCrawl")) ScheduledCrawl.main(null);
-		if(cmd.equals("HajimeneViewer")) HajimeneViewer.main(null);
-		if(cmd.equals("AccountManager")) AccountManager.main(null);
+		if(cmd.equals("Crawler")) new Crawler();
+		if(cmd.equals("HajimeneViewer")) new Viewer("始値Viewer");
+		if(cmd.equals("AccountManager")) new AccountManager();
   }
 }

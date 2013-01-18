@@ -12,7 +12,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 @SuppressWarnings("serial")
 public class MyFrame extends JFrame{
 	MyFrame(){
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
 		
 		//Look&FeelをOSの物に。
