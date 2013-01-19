@@ -51,7 +51,7 @@ public class Crawler {
     }
     
     //保存
-    datapool.saveData();
+    //datapool.saveData();
     sw.stop("トレード情報取得が完了しました\n");
 	}
 }

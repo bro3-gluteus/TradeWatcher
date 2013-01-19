@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.swing.JFrame;
@@ -22,6 +24,7 @@ public class TradeWatcher extends JFrame{
 	public TradeWatcher (){
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		addWindowListener(new myListener());
 		setLayout(new BorderLayout());
 		//情報表示部
 		outputArea = new JTextArea();
@@ -68,8 +71,13 @@ public class TradeWatcher extends JFrame{
 	public static void main(String[] args) {
 		TradeWatcher tw = new TradeWatcher();
 		tw.setVisible(true);
-
 	}
+	
+	public class myListener extends WindowAdapter{
+    public void windowClosing(WindowEvent e){
+    	Crawler.datapool.saveData();
+    }
+  }
 
 }
 
