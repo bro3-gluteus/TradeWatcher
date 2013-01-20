@@ -8,7 +8,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -76,6 +79,11 @@ public class TradeWatcher extends JFrame{
 	
 	public class myListener extends WindowAdapter{
     public void windowClosing(WindowEvent e){
+    	JFrame frame = new JFrame("データ保存中");
+    	Screen screen = new Screen();
+    	int[] xy = screen.getFrameCenter();
+    	frame.setBounds(xy[0],xy[1],200,0);
+    	frame.setVisible(true);
     	Crawler.datapool.saveData();
     }
   }
