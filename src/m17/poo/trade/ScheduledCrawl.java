@@ -20,9 +20,10 @@ public class ScheduledCrawl {
 		TimerTask task1 = new Task();
 		TimerTask task2 = new Task();
 		
-		//現在時刻と今日の9:50と10:02を取得
+		//現在時刻と今日の9:50と次の00分を取得
 		DateTime nowTime = new DateTime(DateTimeZone.forID("Asia/Tokyo"));
-		int hours = nowTime.getHourOfDay()+1;		
+		int hours = nowTime.getHourOfDay()+1;
+		if (hours==24) hours = 0;
 		DateTime dt1 = nowTime.withTime(hours, 0, 0, 0);
 		dt2 = nowTime.withTime(9, 50, 0, 0);
 		
