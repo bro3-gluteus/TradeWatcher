@@ -72,14 +72,28 @@ public class Viewer extends MyFrame implements ActionListener{
 		Map<String,String> map = null;
 		if (title=="始値Viewer") {
 			map = pickUp.getOpeningPrice();
-		}
-		try{
-			map = new TreeMap<String,String>(map);
-			for (Map.Entry<String, String> entry : map.entrySet()){
-				outputArea.append(entry.getKey()+"\t"+entry.getValue()+"\n");
+			try{
+				map = new TreeMap<String,String>(map);
+				for (Map.Entry<String, String> entry : map.entrySet()){
+					outputArea.append(entry.getKey()+"\t"+entry.getValue()+"\n");
+				}
+			}catch (NullPointerException err){
+				System.out.println(err);
 			}
-		}catch (NullPointerException err){
-			System.out.println(err);
 		}
+		
+		if (title=="値動きViewer") {
+			map = pickUp.getAllPrice();
+			try{
+				map = new TreeMap<String,String>(map);
+				outputArea.append("調査時刻\t即落 (入札0)"+"\n");
+				for (Map.Entry<String, String> entry : map.entrySet()){
+					outputArea.append(entry.getKey()+"\t"+entry.getValue()+"\n");
+				}
+			}catch (NullPointerException err){
+				System.out.println(err);
+			}
+		}
+		
 	}
 }
