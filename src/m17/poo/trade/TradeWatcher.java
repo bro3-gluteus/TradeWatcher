@@ -23,6 +23,7 @@ public class TradeWatcher extends JFrame{
 	
 	public TradeWatcher (){
 		
+		super("TradeWatcher");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addWindowListener(new myListener());
 		setLayout(new BorderLayout());

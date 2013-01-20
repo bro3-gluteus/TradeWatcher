@@ -7,6 +7,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JTextArea;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.openqa.selenium.WebDriver;
 
 public class Crawler {
@@ -53,6 +56,12 @@ public class Crawler {
     //保存
     //datapool.saveData();
     sw.stop("トレード情報取得が完了しました\n");
+    JTextArea outputArea = TradeWatcher.outputArea;
+    DateTime dt3 = new DateTime(DateTimeZone.forID("Asia/Tokyo")).plusHours(1);
+		outputArea.append(dt3.toString("MM/dd HH")+":00にCrawler予約中\n");
+		outputArea.append(ScheduledCrawl.dt2.toString("MM/dd HH:mm")+"にCrawler予約中\n");
+		outputArea.setCaretPosition(0); 
+    outputArea.setCaretPosition(outputArea.getDocument().getLength());
 	}
 }
 

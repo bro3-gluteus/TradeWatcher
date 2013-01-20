@@ -90,8 +90,8 @@ public class Price {
     	
     	//強制公開期限が24時間以内のもので最安の入札０を見つける
     	String openLimit = columnList.get(8).getText();
-    	if(!openLimit.equals("---")&&columnList.get(7).getText().equals("0")&&!blnYasu){ //入札０で即落で無い時
-    		
+    	
+    	if(!openLimit.equals("---")){
     		Pattern pattern = Pattern.compile("([0-9]+)-([0-9]+)-([0-9]+)\n([0-9]+):([0-9]+)");
     		Matcher matcher = pattern.matcher(openLimit);
     		if (matcher.find()){
@@ -105,13 +105,18 @@ public class Price {
     					);
 
     			Duration duration = new Duration(serverTime, openLimitDate);//現在時刻との差
-    			
-    			if(duration.getMillis()<86400000){//24時間以内
+    			if(duration.getMillis()<86400000&&columnList.get(7).getText().equals("0")&&!blnYasu){//24時間以内
     				saiyasuPrice = columnList.get(6).getText();
     				saiyasuPrice = saiyasuPrice.replaceAll(",", "");
     				blnYasu = true;
     			}
+    			if(duration.getMillis() <0&&!blnRaku){
+    				sokurakuPrice = columnList.get(6).getText();
+        		sokurakuPrice = sokurakuPrice.replaceAll(",", "");
+        		blnRaku = true;
+    			}
     		}
+    		
     	}
     	
     	//即落を見つける
