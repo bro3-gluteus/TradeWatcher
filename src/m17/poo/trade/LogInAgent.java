@@ -65,7 +65,7 @@ public class LogInAgent {
       //この部分がFFでうまく動かなかったのは、FFのバージョンに違いによるよう。
       //https://groups.google.com/forum/?fromgroups=#!topic/selenium-users/ZwMtc3j4jO0
 
-      (new WebDriverWait(d, 30)).until(new ExpectedCondition<Boolean>() {
+      (new WebDriverWait(d, 60)).until(new ExpectedCondition<Boolean>() {
         public Boolean apply(WebDriver d) {
           //鯖選択ボタンの下に出てくる【推奨ブラウザ】 のエレメントが表示されるまで待つ
 //          return d.findElement(By.className("serverBrowser")).isDisplayed();
