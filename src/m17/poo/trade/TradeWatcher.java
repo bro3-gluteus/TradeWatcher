@@ -68,6 +68,10 @@ public class TradeWatcher extends JFrame{
 							settingItem1.addActionListener(new Action("AccountManager"));
 		settingMenu.add(settingItem1);
 		
+		JMenuItem settingItem2 = new JMenuItem("カード情報更新");
+							settingItem2.addActionListener(new Action("UpdateCardInfo"));
+		settingMenu.add(settingItem2);
+		
 		setBounds(100, 100, 400, 400);
 		setJMenuBar(menubar);
 		
@@ -126,6 +130,7 @@ class RunnableClass implements Runnable{
 		if(cmd.equals("HajimeneViewer")) new Viewer("始値Viewer");
 		if(cmd.equals("NeugokiViewer")) new Viewer("値動きViewer");
 		if(cmd.equals("AccountManager")) new AccountManager();
+		if(cmd.equals("UpdateCardInfo")) new UpdateCardInfo();
 		
 	}
 }

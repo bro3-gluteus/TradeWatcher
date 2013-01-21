@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JTextArea;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -12,10 +14,13 @@ import org.openqa.selenium.WebElement;
 
 public class UpdateCardInfo {
   
-	private static Map<String,String[]> cardMap = new HashMap<String,String[]>();
+	private Map<String,String[]> cardMap = new HashMap<String,String[]>();
+	private JTextArea outputArea = TradeWatcher.outputArea;;
 	
-  public static void main(String[] args) {
-
+	UpdateCardInfo() {
+		outputArea.append("カード情報の更新を開始しています\n");
+		outputArea.setCaretPosition(0); 
+    outputArea.setCaretPosition(outputArea.getDocument().getLength());
   	StopWatch sw = new StopWatch();
 		WebDriver d = CommonFlow.getBro3WebDriver(CommonSettings.USE_FIREFOX);
 		d.navigate().to("http://m17.3gokushi.jp/card/card_search.php?name_kana=all&status=0&ability_type=attack&ability_value=&ability_sort=desc&search_mode=detail&view_mode=basic&search_start=1&search-btn=%E6%A4%9C%E7%B4%A2&p=1");
@@ -29,7 +34,7 @@ public class UpdateCardInfo {
 		sw.stop("------全処理終了------");
 	}
 	
-	private static void collectInfo(WebDriver d){
+	private void collectInfo(WebDriver d){
 		List<WebElement> card = d.findElement(By.id("busyo-search-result-basic"))
 				.findElements(By.tagName("tr"));
 		int i;
@@ -41,7 +46,9 @@ public class UpdateCardInfo {
 			String[] info = {rarity,cost};
 			cardMap.put(id,info);
 			
-			System.out.println("id:"+id+" rarity:"+rarity+" cost:"+cost);
+			outputArea.append("id:"+id+" rarity:"+rarity+" cost:"+cost+"\n");
+			outputArea.setCaretPosition(0); 
+	    outputArea.setCaretPosition(outputArea.getDocument().getLength());
 			
 		}
 		if(i==card.size()){
