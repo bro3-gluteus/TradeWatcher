@@ -1,9 +1,6 @@
 package m17.poo.trade;
 
 import java.io.File;
-import java.util.List;
-
-import javax.swing.JOptionPane;
 
 /**
  * Mixiアカウント情報のデータクラス
