@@ -11,22 +11,22 @@ import com.google.common.collect.Multimap;
 public class PickUp {
 	
 	private String id;
-	
+	private Multimap<String, String[]> savedData;
 	public void setId(String id){
 		this.id = id;
 	}
 	
-	public Map<String,String> getOpeningPrice(){
-		
-		//保存データをヒープに置きたくないから毎回スタックで呼び出す
+	public PickUp(){
 		IOUtil<Multimap<String, String[]>> ioutil = new IOUtil<Multimap<String, String[]>>();
-		Multimap<String, String[]> savedData;
 		try {
 			savedData = ioutil.loadZippedData(new File("data/trade.zip"));
 		} catch (Exception e) {
 			savedData = ArrayListMultimap.create();
 		}
-		
+	}
+	
+	public Map<String,String> getOpeningPrice(){
+
 		Map<String,String> priceMap = new HashMap<String,String>();
 		
 		Collection<String[]> dataCollection = savedData.get(id);
@@ -47,14 +47,7 @@ public class PickUp {
 	} 
 	
 	public Map<String,String> getAllPrice(){
-		IOUtil<Multimap<String, String[]>> ioutil = new IOUtil<Multimap<String, String[]>>();
-		Multimap<String, String[]> savedData;
-		try {
-			savedData = ioutil.loadZippedData(new File("data/trade.zip"));
-		} catch (Exception e) {
-			savedData = ArrayListMultimap.create();
-		}
-		
+
 		Map<String,String> priceMap = new HashMap<String,String>();
 		
 		Collection<String[]> dataCollection = savedData.get(id);
